@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classificador de Emails - FastAPI</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📧</text></svg>">
+</head>
+
+<body>
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="loading-content">
+            <div class="brain-icon">🧠</div>
+            <div class="loading-text">
+                <h3>Analisando Email...</h3>
+                <p id="loading-status">Iniciando análise...</p>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="header-content">
+                <div class="theme-switcher">
+                    <button id="light-mode-btn" class="theme-btn active">☀︎ Modo Claro</button>
+                    <button id="dark-mode-btn" class="theme-btn">⏾ Modo Escuro</button>
+                </div>
+
+                <div class="logo">
+                    <span class="logo-icon"></span>
+                    <h1>Classificador de Emails </h1>
+                </div>
+                <div class="subtitle">
+                    <p>Powered by <strong>FastAPI</strong> & <strong>Groq AI</strong></p>
+                </div>
+            </div>
+        </header>
+
+
+        <main class="main-content">
+
+            <section class="input-section">
+                <div class="section-header">
+                    <h2>Analisar Email</h2>
+                    <p>Envie um email para classificação automática e geração de resposta</p>
+                </div>
+
+                <div class="input-container">
+                    <div class="input-tabs">
+                        <button class="tab-button active" data-tab="file">📁 Upload de Arquivo</button>
+                        <button class="tab-button" data-tab="text">✏️ Texto Direto</button>
+                    </div>
+
+
+                    <div id="file-tab" class="tab-content active">
+                        <div class="file-upload-area" id="file-upload-area">
+                            <div class="upload-icon">📎</div>
+                            <label for="file-input" id="file-input-label">
+                                Clique aqui ou arraste um arquivo
+                            </label>
+                            <input type="file" id="file-input" accept=".txt,.pdf" hidden>
+                            <p class="file-info">Formatos suportados: .txt, .pdf (máx. 10MB)</p>
+                        </div>
+                        <div id="file-info" class="file-details"></div>
+                    </div>
+
+
+                    <div id="text-tab" class="tab-content">
+                        <div class="text-input-container">
+                            <label for="text-input">Digite ou cole o conteúdo do email:</label>
+                            <textarea id="text-input" placeholder="Assunto: Problema no sistema
+
+Olá,
+
+Estou enfrentando dificuldades para acessar o sistema. Quando tento fazer login, aparece uma mensagem de erro.
+
+Poderiam me ajudar?
+
+Obrigado." maxlength="50000"></textarea>
+                            <div class="char-counter">
+                                <span id="char-count">0</span> / 50.000 caracteres
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <button id="analyze-button" class="analyze-button" disabled>
+                        <span class="button-icon"></span>
+                        Analisar Email
+                    </button>
+                </div>
+            </section>
+
+
+            <div id="error-message" class="error-message"></div>
+
+
+            <section id="results-section" class="results-section">
+                <div class="section-header">
+                    <h2> <strong>Resultados da Análise</strong></h2>
+                </div>
+
+                <div class="results-grid">
+
+                    <div id="classification-result" class="result-card">
+                        <div class="card-header">
+                            <h3>Classificação</h3>
+                            <span id="classification-badge" class="classification-badge"></span>
+                        </div>
+                        <div class="card-content">
+                            <p id="classification-text"></p>
+                        </div>
+                    </div>
+
+
+                    <div class="result-card">
+                        <div class="card-header">
+                            <h3>Resposta Sugerida</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="response-container">
+                                <p id="response-text"></p>
+                                <button id="copy-response" class="copy-button">
+                                    <span></span> Copiar Resposta
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="result-card stats-card">
+                        <div class="card-header">
+                            <h3>Estatísticas</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-label">Classificação:</span>
+                                    <span id="classification-time" class="stat-value">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Geração:</span>
+                                    <span id="generation-time" class="stat-value">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Total:</span>
+                                    <span id="total-time" class="stat-value">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Provedor:</span>
+                                    <span id="provider-info" class="stat-value">-</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Caracteres:</span>
+                                    <span id="char-count-result" class="stat-value">-</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="result-card full-width">
+                        <div class="card-header">
+                            <h3>Texto analisado</h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="analyzed-content">
+                                <pre id="analyzed-content"></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+
+        <footer class="footer">
+            <div class="footer-content">
+                <p><strong>Feito com muito carinho para o processo seletivo da AutoU 🤍</strong></p>
+                <div class="footer-links">
+                    <a href="/api/health" target="_blank">Status da API</a>
+                    <a href="/docs" target="_blank">Documentação</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>

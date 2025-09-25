@@ -1,0 +1,19 @@
+Assunto: Solicitação de Suporte Técnico
+
+Prezados,
+
+Estou enfrentando um problema crítico com o sistema de vendas. Desde ontem pela manhã, não consigo acessar o módulo de relatórios, e isso está impactando diretamente no fechamento mensal.
+
+Quando clico em "Relatórios", aparece uma mensagem de erro: "Erro 500 - Servidor Interno". Já tentei limpar o cache do navegador e fazer logout/login, mas o problema persiste.
+
+Este problema é urgente, pois preciso entregar os relatórios até amanhã para a diretoria.
+
+Poderiam verificar o que está acontecendo e me dar um retorno o mais breve possível?
+
+Agradeço desde já pela atenção.
+
+Atenciosamente,
+João Silva
+Analista de Vendas
+Telefone: (11) 99999-9999
+
