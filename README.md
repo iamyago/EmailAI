@@ -1,7 +1,10 @@
 # Classificador de Emails IA com FastAPI
 
 Este é um projeto feito para o processo seletivo da AutoU, considerei TODOS os tópicos do desafio. é uma aplicação web para classificação automática de emails e geração de respostas sugeridas, utilizando FastAPI para o backend e Groq AI para inteligência artificial. O frontend é construído com HTML, CSS e JavaScript puros, oferecendo uma interface responsiva.
-  
+
+# Link para aplicação Online
+https://emailai-nhwp.onrender.com/
+  * F5 até conectar ou esperar alguns minutos.
 
 ## Funcionalidades
 -   **Backend FastAPI**: API robusta e de alta performance.
