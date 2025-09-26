@@ -98,9 +98,9 @@ def classify_email_with_groq(email_content: str) -> str:
         return classify_email_fallback(email_content)
     
     try:
-        system_prompt = """Você é um especialista em classificação de emails corporativos para uma empresa do setor financeiro.
-
-Sua tarefa é classificar emails em duas categorias:
+        system_prompt = """Você é um assistente de IA versátil.
+        
+        Sua tarefa é classificar emails em duas categorias:
 
 PRODUTIVO: Emails que requerem ação ou resposta específica, incluindo:
 - Solicitações de suporte técnico
@@ -120,21 +120,12 @@ IMPRODUTIVO: Emails que não necessitam ação imediata, incluindo:
 - Cumprimentos sociais
 - Mensagens de "bom dia/boa tarde" sem conteúdo adicional
 
+Se o usuário fornecer um EMAIL (texto que parece uma mensagem formal ou corporativa), 
+   - responda APENAS com a categoria escolhida.
 
-Além disso, considere as seguintes categorias adicionais:
-1. SUPORTE TÉCNICO → ...
-2. FINANCEIRO → ...
-3. REUNIÃO/AGENDA → ...
-4. INFORMATIVO → ...
-5. SOCIAL/PESSOAL → ...
-6. SPAM/IRRELEVANTE → ...
-
-Exemplos:
-Email: "Obrigado pela ajuda!"
-Classificação: IMPRODUTIVO
-
-Email: "Preciso da fatura de agosto"
-Classificação: FINANCEIRO"."""
+2. Se o usuário fizer qualquer outra pergunta ou comentário (não for email), 
+   - responda de forma natural, criativa e amigável, como uma IA de conversação normal.
+   - exemplo: "bolo de chocolate" → "Que delicioso!""."""
 
         user_prompt = f"""Classifique o seguinte email:
 
