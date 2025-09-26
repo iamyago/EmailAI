@@ -16,9 +16,7 @@ import time
 from groq import Groq
 
 
-# ==============================
 # Configurações
-# ==============================
 load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 
@@ -57,9 +55,7 @@ app.add_middleware(
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-# ==============================
 # Modelos Pydantic
-# ==============================
 class EmailRequest(BaseModel):
     email_content: str
 
@@ -75,9 +71,7 @@ class EmailResponse(BaseModel):
     model_used: str
 
 
-# ==============================
 # Utilitários
-# ==============================
 def extract_text_from_pdf(file_content: bytes) -> str:
     try:
         reader = PyPDF2.PdfReader(io.BytesIO(file_content))
@@ -111,9 +105,6 @@ def preprocess_text(text: str) -> str:
     return " ".join(tokens).strip()
 
 
-# ==============================
-# Classificação
-# ==============================
 def classify_email_with_groq(email_content: str) -> str:
     if not groq_client:
         return classify_email_fallback(email_content)
@@ -221,9 +212,7 @@ def classify_email_fallback(email_content: str) -> str:
     return "IMPRODUTIVO"
 
 
-# ==============================
 # Respostas automáticas
-# ==============================
 def generate_classification_reason(classification: str) -> str:
     return (
         "Este email contém solicitações ou questões que requerem ação."
@@ -295,9 +284,7 @@ def generate_response_fallback(classification: str) -> str:
     """).strip()
 
 
-# ==============================
-# Rotas
-# ==============================
+# Requisições API
 @app.get("/", response_class=HTMLResponse)
 async def read_root():
     return FileResponse("static/index.html")
