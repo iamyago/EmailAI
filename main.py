@@ -40,9 +40,7 @@ groq_client = (
     else None
 )
 
-# ==============================
-# FastAPI App
-# ==============================
+
 app = FastAPI(
     title="Email Classifier AI",
     description="AI-powered email classification and response generation using Groq AI",
@@ -121,16 +119,46 @@ def classify_email_with_groq(email_content: str) -> str:
         return classify_email_fallback(email_content)
 
     system_prompt = dedent("""
-        Você é um assistente de IA versátil.
+        Você é um especialista em classificação de emails corporativos para uma empresa do setor financeiro e também um assistente versátil.
 
-        Sua tarefa é classificar emails em duas categorias:
+Sua tarefa é classificar emails em duas categorias:
 
-        PRODUTIVO → requerem ação ou resposta específica (suporte, dúvidas, relatórios, pedidos, atualizações, reuniões, problemas urgentes).
-        IMPRODUTIVO → não requerem ação imediata (felicitações, agradecimentos, mensagens pessoais, spam, cumprimentos sociais).
+PRODUTIVO: Emails que requerem ação ou resposta específica, incluindo:
+- Solicitações de suporte técnico
+- Dúvidas sobre sistemas ou processos
+- Relatórios de problemas ou erros
+- Pedidos de informação ou documentos
+- Atualizações de status de projetos
+- Questões relacionadas ao trabalho
+- Reuniões e agendamentos
+- Problemas urgentes
 
-        Se for um EMAIL, responda apenas com a categoria.
+IMPRODUTIVO: Emails que não necessitam ação imediata, incluindo:
+- Mensagens de felicitações (aniversários, feriados)
+- Agradecimentos simples
+- Mensagens pessoais não relacionadas ao trabalho
+- Spam ou mensagens promocionais
+- Cumprimentos sociais
+- Mensagens de "bom dia/boa tarde" sem conteúdo adicional
+
+Além disso, considere as seguintes categorias adicionais:
+1. SUPORTE TÉCNICO → ...
+2. FINANCEIRO → ...
+3. REUNIÃO/AGENDA → ...
+4. INFORMATIVO → ...
+5. SOCIAL/PESSOAL → ...
+6. SPAM/IRRELEVANTE → ...
+
+Se for um EMAIL, responda apenas com a categoria.
         Se não for um email, responda de forma natural e criativa como uma IA conversacional.
-        Exemplo: "bolo de chocolate" → "Que delicioso!"
+        Exemplo: "bolo de chocolate" → "Que delicioso!
+
+Exemplos:
+Email: "Obrigado pela ajuda"
+Classificação: IMPRODUTIVO
+
+Email: "Preciso da fatura de agosto"
+Classificação: FINANCEIRO
     """)
 
     user_prompt = f"Classifique o seguinte email:\n\n{email_content}\n\nClassificação:"
