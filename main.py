@@ -8,11 +8,13 @@ from dotenv import load_dotenv
 from textwrap import dedent
 import PyPDF2
 import spacy
+from spacy.cli import download
 import re
 import os
 import io
 import time
 from groq import Groq
+
 
 # ==============================
 # Configurações
@@ -84,6 +86,12 @@ def extract_text_from_pdf(file_content: bytes) -> str:
         return text.strip() or "Não foi possível extrair texto do PDF."
     except Exception as e:
         return f"Erro ao processar PDF: {e}"
+    
+try:
+    nlp = spacy.load("pt_core_news_sm")
+except OSError:
+    download("pt_core_news_sm")
+    nlp = spacy.load("pt_core_news_sm")
 
 
 def preprocess_text(text: str) -> str:
