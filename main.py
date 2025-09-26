@@ -120,7 +120,21 @@ IMPRODUTIVO: Emails que não necessitam ação imediata, incluindo:
 - Cumprimentos sociais
 - Mensagens de "bom dia/boa tarde" sem conteúdo adicional
 
-Analise o contexto, intenção e urgência da mensagem. Responda APENAS com "PRODUTIVO" ou "IMPRODUTIVO"."""
+
+Além disso, considere as seguintes categorias adicionais:
+1. SUPORTE TÉCNICO → ...
+2. FINANCEIRO → ...
+3. REUNIÃO/AGENDA → ...
+4. INFORMATIVO → ...
+5. SOCIAL/PESSOAL → ...
+6. SPAM/IRRELEVANTE → ...
+
+Exemplos:
+Email: "Obrigado pela ajuda!"
+Classificação: IMPRODUTIVO
+
+Email: "Preciso da fatura de agosto"
+Classificação: FINANCEIRO"."""
 
         user_prompt = f"""Classifique o seguinte email:
 
