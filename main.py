@@ -26,8 +26,12 @@ ALLOWED_EXTENSIONS = {"txt", "pdf"}
 MAX_FILE_SIZE = 10 * 1024 * 1024  # 10MB
 MODEL_NAME = "llama-3.1-8b-instant"
 
-# NLP
-nlp = spacy.load("pt_core_news_sm")
+# NLP (carregar ou baixar modelo)
+try:
+    nlp = spacy.load("pt_core_news_sm")
+except OSError:
+    download("pt_core_news_sm")
+    nlp = spacy.load("pt_core_news_sm")
 
 # Cliente Groq
 groq_client = (
@@ -86,12 +90,6 @@ def extract_text_from_pdf(file_content: bytes) -> str:
         return text.strip() or "Não foi possível extrair texto do PDF."
     except Exception as e:
         return f"Erro ao processar PDF: {e}"
-    
-try:
-    nlp = spacy.load("pt_core_news_sm")
-except OSError:
-    download("pt_core_news_sm")
-    nlp = spacy.load("pt_core_news_sm")
 
 
 def preprocess_text(text: str) -> str:
